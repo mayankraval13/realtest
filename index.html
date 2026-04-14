@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Google Doc Website</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #doc-content {
+      min-height: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1 style="text-align:center;">My Google Doc</h1>
+    <div id="doc-content">Loading...</div>
+  </main>
+
+  <script>
+    fetch("/api/doc")
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(html => {
+        document.getElementById("doc-content").innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("doc-content").innerText =
+          "❌ Error loading document: " + err.message;
+      });
+  </script>
+
+</body>
+</html>
